@@ -7,3 +7,7 @@ El entorno virtual no está subido, si queremos entrenar nosotros la IA: [Pasos 
 ## Entorno
 
 El objetivo de la IA es no tocar el obstáculo (el cubo que avanza hacia el agente) pero manteniéndose lo más cerca posible del centro del entorno.
+
+<p align="center">
+  <img src="img/captura.PNG" />
+</p>
