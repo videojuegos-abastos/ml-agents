@@ -1,6 +1,6 @@
 # No quiero los módulos python ni el entorno virtual
 
-/venv3.9/
+venv3.9/
 
 # This .gitignore file should be placed at the root of your Unity project directory
 #
