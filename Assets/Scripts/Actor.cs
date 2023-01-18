@@ -28,30 +28,32 @@ public class Actor : Agent
 		StartCoroutine(nameof(RewardCoroutine));
 	}
 
-	public override void OnActionReceived(ActionBuffers actions)
-	{
-		// Cuando la Red Neuronal devuelve un output / acción, tomamos el resultado y hacemos que esa acción influya en cómo se comporta nuestro agente.
-		// En este caso la ContinousAction[0] es la que se encarga de mover el agrnte.
-
-		Vector3 direction = new Vector3(actions.ContinuousActions[0], 0, 0);
-
-		transform.localPosition += direction * Time.deltaTime * speed;
-
-	}
-
-	public override void CollectObservations(VectorSensor sensor)
-	{
-		// Le pasamos a la red neuronal todos los inputs / parámetros necesarios para que 'piense'.
-		// En este caso le estamos pasando la posición del agente (su propia posición) y a del obstáculo
-		sensor.AddObservation(transform.localPosition);
-		sensor.AddObservation(obstacle.transform.localPosition);
-	}
-
 	public override void OnEpisodeBegin()
 	{
 		// Código para resetear el escenario
 		transform.localPosition = localStartPosition;
 	}
+
+	public override void CollectObservations(VectorSensor sensor)
+	{
+		// #BLOQUE
+		// Podemos añadir observaciones / inputs con la función: sensor.AddObservation
+		// Esta función puede tomar varios tipos de argumentos pero recuerda que no todos añadiran el mismo número de observaciones
+
+
+
+	}
+
+	public override void OnActionReceived(ActionBuffers actions)
+	{
+		// #BLOQUE
+		// Movemos al agente en el eje X.
+		// Recuerda que tenemos las acciones en: actions.ContinuousActions
+
+
+
+	}
+
 
 	public override void Heuristic(in ActionBuffers actionsOut)
 	{
@@ -64,9 +66,11 @@ public class Actor : Agent
 
 	void OnTriggerEnter(Collider other)
 	{
-		// Si el obstáculo golpea al agente le damos una recompensa negativa (lo castigamos) y acabamos el episodio.
-		SetReward(-1f);
-		EndEpisode();
+		// #BLOQUE
+		// El agente entra en contacto con algún trigger
+
+
+
 	}
 
 	IEnumerator RewardCoroutine() {
@@ -75,10 +79,16 @@ public class Actor : Agent
 		while (isActiveAndEnabled)
 		{
 			yield return new WaitForSeconds(.2f);
+			
+			// #BLOQUE
+			// Este bloque se ejecuta cada 0.2 segundos, aquí podemos recompensar al agente dependiendo de qué tal lo haga
+			{
 
-			float reward = .05f / (Vector3.Distance(transform.localPosition, localStartPosition) + 1);
 
-			AddReward(reward);
+
+
+			}
+
 			SetColor();
 		}
 
@@ -88,7 +98,6 @@ public class Actor : Agent
 	{
 		// Para visualizar mejor el resultado, cambiamos el color del agente para ver si lo está haciendo bien o mal
 		MeshRenderer mr = GetComponent<MeshRenderer>();
-	
 		mr.material.color = Color.Lerp(colorBad, colorGood, GetCumulativeReward());
 	}
 
